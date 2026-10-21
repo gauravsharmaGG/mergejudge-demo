@@ -1,0 +1,39 @@
+# MergeJudge config, created from the MergeJudge panel.
+# MergeJudge reads this file from the pull request's base branch, so a pull request cannot change its own rules.
+# Every key is optional. All options: https://mergejudge.si/guide/config
+
+# The AI step runs on your own machine through a MergeJudge runner (switch it on for this repo in the panel).
+# No provider key is needed here.
+provider:
+  type: none
+
+# How much of the repo the model reads.
+#   diff    = the model sees only the changed lines (fewest tokens).
+#   context = diff, plus the full changed files, the files they import and callers of changed code (more tokens).
+#   deep    = context, plus code the change touches, found with a temporary index of the repo (runner only).
+review:
+  mode: deep
+
+# Changes to protected paths always need a person to look at them. Setting this list replaces the built-in one,
+# so the built-in paths are repeated here with yours added.
+lanes:
+  protected:
+    - ".github/**"
+    - "deploy/**"
+    - "**/auth/**"
+    - "**/migrations/**"
+    - "wrangler.toml"
+    - "_headers"
+    - "**/_headers"
+    - "**/.env*"
+  # Small code changes auto (opt-in): a small code file that passes every rule can get the auto lane, but only when the AI says
+  # auto for it with a reason. MergeJudge doesn't merge PRs itself; with approval.mode: auto-merge-only it asks GitHub to auto-merge auto-lane PRs.
+  code_auto:
+    enabled: true
+    max_lines: 30
+    max_total_lines: 100
+
+# Learning: MergeJudge notes findings your reviewers dismiss and what happens after merge, and proposes small
+# rule changes as a pull request that a person has to merge.
+learning:
+  enabled: true

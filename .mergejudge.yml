@@ -37,3 +37,9 @@ lanes:
 # rule changes as a pull request that a person has to merge.
 learning:
   enabled: true
+
+# Approvals: MergeJudge approves auto-lane PRs as mergejudge[bot]. It never merges.
+approval:
+  enabled: true
+  mode: bot-approve
+  bot_approve: { auto: true, review: false, block: false }

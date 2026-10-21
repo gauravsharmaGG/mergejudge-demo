@@ -1,7 +1,7 @@
 # Getting started
 
-Install Node.js 20 or newer.
+Install Node.js 20 or newer first.
 
-Run the the tests with `npm test`.
+Run the tests with `npm test`.
 
 Start the app with `node src/index.js`.

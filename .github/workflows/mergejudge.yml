@@ -1,0 +1,30 @@
+name: MergeJudge
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+jobs:
+  lane:
+    # Fork PRs get no secrets and a read-only token, so only run for branches in this repo.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: gauravsharmaGG/mergejudge-runner@v1
+        env:
+          # Repository secret with your AI provider key (Settings > Secrets and variables > Actions).
+          MJ_API_KEY: ${{ secrets.MJ_API_KEY }}
+        with:
+          # To switch provider, set the repository variables (Settings > Secrets and variables >
+          # Actions > Variables) instead of editing this file:
+          #   MJ_PROVIDER: anthropic (default) | openai | zai | openai-compatible | none (rules-only)
+          #   MJ_MODEL:    the model name for that provider (required for the AI step)
+          #   MJ_BASE_URL: only for openai-compatible endpoints
+          # Then put that provider's key in the MJ_API_KEY secret.
+          # Without MJ_MODEL or the key, the review runs rules-only.
+          provider: ${{ vars.MJ_PROVIDER || 'anthropic' }}
+          model: ${{ vars.MJ_MODEL }}
+          base_url: ${{ vars.MJ_BASE_URL }}
+          api_key_env: MJ_API_KEY

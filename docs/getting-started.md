@@ -1,6 +1,6 @@
 # Getting started
 
-Install Node.js 20 or newer.
+Install Node.js 20 or newer first.
 
 Run the tests with `npm test`.
 
